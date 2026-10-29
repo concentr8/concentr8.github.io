@@ -110,7 +110,7 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
         <a data-file="Concentr8-arm64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-arm64.dmg">Mac (Apple Silicon)</a>
         <a data-file="Concentr8-x64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.dmg">Mac (Intel)</a>
         <a data-file="Concentr8-x64.exe" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.exe">Windows</a>
-        <a data-file="Concentr8-x64.AppImage" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.AppImage">Linux</a>
+        <a data-file="Concentr8-x86_64.AppImage" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x86_64.AppImage">Linux</a>
       </div>
       <p class="detail-note" style="margin-top:14px">Not sure which Mac? Apple menu, About This Mac. Windows and Linux are early versions.</p>
     </div>
@@ -176,7 +176,7 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
         <div class="cmd"><code>xattr -cr /Applications/Concentr8.app</code><button class="wire-button small" type="button" data-copy>Copy</button></div></details>
       <details><summary>Windows says it protected my PC.</summary><p>Click More info, then Run anyway.</p></details>
       <details><summary>How do I start the Linux version?</summary><p>Make it runnable, then double-click it. Newer Ubuntu may need libfuse2.</p>
-        <div class="cmd"><code>chmod +x Concentr8-x64.AppImage</code><button class="wire-button small" type="button" data-copy>Copy</button></div></details>
+        <div class="cmd"><code>chmod +x Concentr8-x86_64.AppImage</code><button class="wire-button small" type="button" data-copy>Copy</button></div></details>
       <details><summary>Do I get the newest version?</summary><p>Not automatically yet. Come back to this page for the newest stable version.</p></details>
       <details><summary>Where is my data?</summary><p>The app keeps your tasks and settings on your computer.</p></details>
     </section>
@@ -199,7 +199,7 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
     document.documentElement.setAttribute('data-os', os);
 
     var base = 'https://github.com/' + STABLE + '/releases/latest/download/';
-    var pick = { mac: ['Concentr8-arm64.dmg', 'Download for Mac'], win: ['Concentr8-x64.exe', 'Download for Windows'], linux: ['Concentr8-x64.AppImage', 'Download for Linux'] }[os];
+    var pick = { mac: ['Concentr8-arm64.dmg', 'Download for Mac'], win: ['Concentr8-x64.exe', 'Download for Windows'], linux: ['Concentr8-x86_64.AppImage', 'Download for Linux'] }[os];
     var dl = document.getElementById('dl');
     if (pick) { dl.href = base + pick[0]; dl.textContent = pick[1]; dl.setAttribute('data-file', pick[0]); }
     else dl.setAttribute('data-file', 'Concentr8-arm64.dmg');
