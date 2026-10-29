@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+  Purpose: hidden page with the newest beta download, for testers who got the address from Jonas.
+  Called by: nobody links to it; GitHub Pages serves it at https://concentr8.github.io/beta-c6a77e30f8/ .
+  Calls: the GitHub API (public, no key) for the newest Pre-release of concentr8/alpha.
+  Not secret: anyone with the address can use it, and the files are public on GitHub (soft access, Jonas's choice 2026-10-28).
+  AI-GENERATED: no wireframe from Jack; built from the classes of the app (alpha/docs/design.md).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Concentr8 beta</title>
+<style>
+:root{color-scheme:light;--ink:#292929}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:18px/1.4 Arial,Helvetica,sans-serif}
+a{color:inherit}
+h1,h2,p{margin:0}
+:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.page{max-width:1000px;margin:0 auto;padding:48px 24px}
+h1{font-size:28px;font-weight:400;line-height:1.3;letter-spacing:-.4px;margin-bottom:24px}
+.wire-button{min-height:48px;padding:11px 20px;background:#fff;border:1.5px solid #bdbdbd;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:18px;color:inherit;text-decoration:none}
+.wire-button:hover{background:#f5f5f5}
+.wire-button.solid{background:#292929;color:#fff;border-color:#292929}
+.wire-button.solid:hover{background:#444}
+.preview-note{background:#f4f4f4;color:#606060;padding:14px 16px;border-radius:6px;font-size:16px;line-height:1.5;margin-bottom:24px}
+.detail-note{color:#737373;font-size:16px}
+.actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:24px 0 16px}
+.others{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:16px;color:#555;margin-top:16px}
+.others a.soon{opacity:.5;pointer-events:none;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Concentr8 beta</h1>
+  <p class="preview-note">Early build for testers. Things may break. Please do not share this address.</p>
+  <p id="ver" class="detail-note" aria-live="polite">Looking for the newest beta...</p>
+  <div class="actions"><a class="wire-button solid" id="dl" href="https://github.com/concentr8/alpha/releases">Download the beta</a></div>
+  <div class="others" aria-label="All downloads">
+    <a data-file="Concentr8-arm64.dmg" href="https://github.com/concentr8/alpha/releases">Mac (Apple Silicon)</a>
+    <a data-file="Concentr8-x64.dmg" href="https://github.com/concentr8/alpha/releases">Mac (Intel)</a>
+    <a data-file="Concentr8-x64.exe" href="https://github.com/concentr8/alpha/releases">Windows</a>
+    <a data-file="Concentr8-x86_64.AppImage" href="https://github.com/concentr8/alpha/releases">Linux</a>
+  </div>
+  <p class="detail-note" style="margin-top:24px">On a Mac, after moving the app to Applications, run this once in Terminal if macOS says it is damaged: <code>xattr -cr /Applications/Concentr8.app</code></p>
+</div>
+<script>
+// Why: find the newest Pre-release in concentr8/alpha and point every link at its files; the big button gets the
+// file for this computer. If GitHub cannot be reached, the links open the releases page.
+(function () {
+  try {
+    var ua = navigator.userAgent || '';
+    var plat = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '') + ' ' + ua;
+    var file = /Win/i.test(plat) ? 'Concentr8-x64.exe' : /Mac/i.test(plat) ? 'Concentr8-arm64.dmg' : /Linux|X11|CrOS/i.test(plat) ? 'Concentr8-x86_64.AppImage' : 'Concentr8-arm64.dmg';
+    fetch('https://api.github.com/repos/concentr8/alpha/releases?per_page=30').then(function (r) { return r.ok ? r.json() : []; }).then(function (list) {
+      var beta = (list || []).filter(function (x) { return x.prerelease && !x.draft; })[0];
+      var ver = document.getElementById('ver');
+      if (!beta) { ver.textContent = 'There is no beta right now.'; return; }
+      var names = (beta.assets || []).map(function (a) { return a.name; });
+      var url = function (f) { return 'https://github.com/concentr8/alpha/releases/download/' + beta.tag_name + '/' + f; };
+      ver.textContent = 'Newest beta ' + beta.tag_name.replace(/^v/, '') + ', built ' + new Date(beta.published_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      var dl = document.getElementById('dl');
+      if (names.indexOf(file) >= 0) { dl.href = url(file); dl.textContent = 'Download for ' + (/exe/.test(file) ? 'Windows' : /AppImage/.test(file) ? 'Linux' : 'Mac'); } else dl.href = beta.html_url;
+      var links = document.querySelectorAll('[data-file]');
+      for (var i = 0; i < links.length; i++) {
+        var f = links[i].getAttribute('data-file');
+        if (names.indexOf(f) >= 0) links[i].href = url(f); else { links[i].classList.add('soon'); links[i].setAttribute('aria-disabled', 'true'); }
+      }
+    }).catch(function () {});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

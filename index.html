@@ -1,9 +1,9 @@
 <!doctype html>
 <!--
-  Purpose: the public Concentr8 page: what the app does, and the downloads (stable and beta).
+  Purpose: the public Concentr8 page: what the app does, and the stable downloads.
   Called by: GitHub Pages serves it at https://concentr8.github.io.
-  Calls: the GitHub API (public, no key) to find the newest stable release in this repo and the newest beta in
-         concentr8/alpha; the web app at /alpha/ is a separate site in that repo.
+  Calls: the GitHub API (public, no key) to find the newest stable release in this repo. Betas are not linked here:
+         testers get the address of the hidden beta page from Jonas. The web app at /alpha/ is a separate site.
   Look: Jack's wireframe design (alpha/docs/design.md): Arial, grey lines, .wire-button, 8px cards.
 -->
 <html lang="en">
@@ -107,26 +107,17 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
 
 
 
-    <section id="beta">
-      <h2>Want new features early?</h2>
-      <p class="intro">Beta versions are built from the newest changes and may break. Stable versions above are the ones we have tested.</p>
-      <div class="actions">
-        <a class="wire-button" id="beta-link" href="https://github.com/concentr8/alpha/releases">Download the beta</a>
-        <a class="wire-button" href="https://concentr8.github.io/alpha/">Open the web app</a>
-      </div>
-      <p class="ver" id="beta-ver" aria-live="polite"></p>
-    </section>
 
   </main>
 
-  <footer>Built by and for UC Berkeley students at Cal Hacks 13.0. Not affiliated with UC Berkeley. Not a medical product. <a href="https://github.com/concentr8/concentr8.github.io/releases">All stable versions</a> · <a href="https://github.com/concentr8/alpha/releases">All beta versions</a></footer>
+  <footer>Built by and for UC Berkeley students at Cal Hacks 13.0. Not affiliated with UC Berkeley. Not a medical product. <a href="https://github.com/concentr8/concentr8.github.io/releases">All stable versions</a></footer>
 </div>
 <script>
 // Why: the big button should download the right file for this computer, and the version text should come from
 // GitHub. Without JavaScript the Mac button still works and nothing is hidden.
 (function () {
   try {
-    var STABLE = 'concentr8/concentr8.github.io', BETA = 'concentr8/alpha';
+    var STABLE = 'concentr8/concentr8.github.io';
     var ua = navigator.userAgent || '';
     var plat = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '') + ' ' + ua;
     var os = /iPhone|iPad|iPod|Android/i.test(ua) ? 'phone'
@@ -145,8 +136,8 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
     fetch('https://api.github.com/repos/' + STABLE + '/releases/latest').then(function (r) { return r.ok ? r.json() : null; }).then(function (rel) {
       var ver = document.getElementById('ver');
       if (!rel || !rel.tag_name) {
-        ver.textContent = 'There is no stable version yet. Try the web app or the beta below.';
-        dl.href = '#beta'; dl.textContent = 'No stable version yet';
+        ver.textContent = 'There is no stable version yet. You can already use the web app.';
+        dl.removeAttribute('href'); dl.setAttribute('aria-disabled', 'true'); dl.textContent = 'No stable version yet';
         return;
       }
       var names = (rel.assets || []).map(function (a) { return a.name; });
@@ -160,14 +151,6 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
       }
     }).catch(function () {});
 
-    fetch('https://api.github.com/repos/' + BETA + '/releases?per_page=30').then(function (r) { return r.ok ? r.json() : []; }).then(function (list) {
-      var beta = (list || []).filter(function (x) { return x.prerelease && !x.draft; })[0];
-      if (!beta) { document.getElementById('beta-ver').textContent = 'There is no beta right now.'; return; }
-      var file = pick ? pick[0] : 'Concentr8-arm64.dmg';
-      var has = (beta.assets || []).some(function (a) { return a.name === file; });
-      document.getElementById('beta-link').href = has ? 'https://github.com/' + BETA + '/releases/download/' + beta.tag_name + '/' + file : beta.html_url;
-      document.getElementById('beta-ver').textContent = 'Newest beta ' + beta.tag_name.replace(/^v/, '') + ', built ' + day(beta.published_at);
-    }).catch(function () {});
 
     var cmds = document.querySelectorAll('[data-copy]');
     for (var k = 0; k < cmds.length; k++) cmds[k].addEventListener('click', function (ev) {
