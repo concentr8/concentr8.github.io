@@ -33,7 +33,6 @@ h1,h2,h3,p{margin:0}
 .preview-note{background:#f4f4f4;color:#606060;padding:14px 16px;border-radius:6px;font-size:16px;line-height:1.5;margin-bottom:24px}
 .detail-note{color:#737373;font-size:16px}
 .card{border:1px solid #eaeaea;border-radius:8px;padding:24px;background:#fff}
-.stat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:30px 0}
 
 /* page layout, built only from the pieces above */
 header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 0;border-bottom:1px solid #eaeaea;flex-wrap:wrap}
@@ -56,28 +55,11 @@ h2{font-size:23px;font-weight:400;line-height:1.3;margin-bottom:12px}
 h3{font-size:21px;font-weight:500;margin-bottom:10px}
 .intro{color:#666;margin-bottom:32px;max-width:40rem}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 .card p{font-size:17px;color:#666;line-height:1.6}
-.big{display:block;font-size:38px;letter-spacing:-1px;margin-bottom:14px}
-.card .so{margin-top:12px;color:var(--ink)}
-.card .src{display:block;margin-top:16px;font-size:14px;color:#777}
-.steps{list-style:none;margin:0;padding:0}
-.steps li{display:grid;grid-template-columns:6rem minmax(0,1fr);gap:18px;padding:20px 0;border-bottom:1px solid #eaeaea}
-.steps time{font-size:21px;color:#555;font-variant-numeric:tabular-nums}
-.steps p{font-size:17px;color:#666;margin-top:4px}
-.call .line{padding:12px 14px;background:#f4f4f2;border-radius:6px;font-size:17px;line-height:1.5;margin-bottom:10px}
-.call .line.b{background:#fff;border:1px solid #ddd;margin-left:2.5rem}
 .cmd{display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 12px;border:1px solid #eaeaea;border-radius:6px;background:#f7f7f5}
 .cmd code{flex:1;min-width:0;font:15px ui-monospace,Menlo,monospace;overflow-wrap:anywhere}
-details{border-bottom:1px solid #eaeaea;padding:18px 0}
-summary{cursor:pointer;font-size:20px;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:20px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:24px;line-height:1}
-details[open] summary::after{content:"\2013"}
-details p{margin-top:12px;color:#666;font-size:17px;line-height:1.6}
-.fine{font-size:15px;color:#777;margin-top:24px;max-width:46rem}
 footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#777;line-height:1.6}
-@media (max-width:820px){.grid3,.grid2,.stat-row{grid-template-columns:1fr}.steps li{grid-template-columns:1fr;gap:4px}.hero{padding:40px 0 48px}section{padding:44px 0}}
+@media (max-width:820px){.grid3{grid-template-columns:1fr}.hero{padding:40px 0 48px}section{padding:44px 0}}
 </style>
 </head>
 <body>
@@ -86,9 +68,6 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
   <header>
     <a class="brand" href="#top">Concentr8</a>
     <nav aria-label="Page">
-      <a href="#how">How it works</a>
-      <a href="#research">Research</a>
-      <a href="#faq">Questions</a>
       <a class="wire-button solid small" href="#download">Download</a>
     </nav>
   </header>
@@ -117,7 +96,7 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
 
     <section id="setup">
       <h2>Ready in three minutes</h2>
-      <p class="intro">The first app versions show the web app in a window. Calls and app blocking are being moved over step by step.</p>
+      <p class="intro">The first app versions show the web app in a window.</p>
       <div class="grid3">
         <div class="card"><h3>1. Install it</h3><p>Open the download and drag Concentr8 into Applications. If macOS says it is damaged, run this once in Terminal:</p>
           <div class="cmd"><code>xattr -cr /Applications/Concentr8.app</code><button class="wire-button small" type="button" data-copy>Copy</button></div></div>
@@ -126,39 +105,7 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
       </div>
     </section>
 
-    <section id="how">
-      <h2>One task. Then follow through.</h2>
-      <p class="intro">A typical evening with Concentr8. The phone call and the app blocker are the next features; this is the plan, not yet in the download.</p>
-      <ul class="steps">
-        <li><time>6:00</time><div><h3>The call</h3><p>At the time you picked: which task, and when? One sentence.</p></div></li>
-        <li><time>9:30</time><div><h3>You start</h3><p>Your session begins at the time you said.</p></div></li>
-        <li><time>9:41</time><div><h3>You drift</h3><p>A gentle warning, then back to your work.</p></div></li>
-        <li><time>10:15</time><div><h3>You are stuck</h3><p>One minute of breathing, then one tiny step.</p></div></li>
-        <li><time>11:00</time><div><h3>A break</h3><p>Take it on purpose. No nudges.</p></div></li>
-      </ul>
-      <div class="card call" style="margin-top:32px;max-width:32rem" role="img" aria-label="Example call: Concentr8 asks which task you will start, you answer the project at nine thirty, Concentr8 confirms.">
-        <p class="detail-note" style="margin-bottom:14px">Example of the planning call</p>
-        <div class="line">Good evening. Two things are due soon: Project 2 for CompSci 188, and the reading quiz. Which one will you start with?</div>
-        <div class="line b">The project.</div>
-        <div class="line">When will you start?</div>
-        <div class="line b">Nine thirty.</div>
-        <div class="line">Locked in: Project 2 at nine thirty. Good luck.</div>
-      </div>
-    </section>
 
-    <section id="research">
-      <h2>Built on research, not hunches</h2>
-      <p class="intro">Every part of Concentr8 goes back to a study about getting started, several of them with people who have ADHD.</p>
-      <div class="grid3">
-        <div class="card"><span class="big">½ grade</span><p>College students with ADHD earned about half a grade less in all four years, and fewer stayed enrolled.</p><p class="so">Why we built Concentr8.</p><a class="src" href="https://digitalcommons.uri.edu/psy_facpubs/900">DuPaul et al., 2021 · 406 college students</a></div>
-        <div class="card"><span class="big">Since 1997</span><p>UC Berkeley researchers have followed girls with ADHD into adulthood. Trouble with school did not simply fade with age.</p><p class="so">Why it checks in every day, not once.</p><a class="src" href="https://news.berkeley.edu/2012/08/14/adhdyoungadults/">Hinshaw lab, UC Berkeley · 228 participants</a></div>
-        <div class="card"><span class="big">94 studies</span><p>Deciding exactly when you will start, called an if-then plan, clearly helps people follow through.</p><p class="so">So the call asks: which task, and when?</p><a class="src" href="https://kops.uni-konstanz.de/entities/publication/2e749bfb-8533-437c-8203-7e788c910c5f">Gollwitzer &amp; Sheeran, 2006 · meta-analysis</a></div>
-        <div class="card"><span class="big">If → then</span><p>If-then plans helped children with ADHD hold back unwanted responses, up to the level of children without ADHD.</p><p class="so">The same idea, tested with ADHD.</p><a class="src" href="https://www.socmot.uni-konstanz.de/publications/implementation-intentions-facilitate-response-inhibition-adhd-children">Gawrilow &amp; Gollwitzer, 2008</a></div>
-        <div class="card"><span class="big">2 in 3</span><p>Adults with ADHD who learned skills like breaking big tasks into small steps: more than 2 in 3 saw symptoms drop by 30% or more, against about 1 in 3 with relaxation training.</p><p class="so">So when you are stuck, you get one tiny first step.</p><a class="src" href="https://sciencedaily.com/releases/2010/08/100824161434.htm">Safren et al., JAMA 2010 · randomized trial</a></div>
-        <div class="card"><span class="big">5 min</span><p>Five minutes a day of structured breathing, box breathing among them, improved mood over four weeks.</p><p class="so">So "I'm stuck" starts with a minute of box breathing.</p><a class="src" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9873947">Balban et al., Stanford 2023 · 108 adults</a></div>
-      </div>
-      <p class="fine">These studies are why we designed Concentr8 this way. Concentr8 itself has not been tested in a study, and it is not a medical product.</p>
-    </section>
 
     <section id="beta">
       <h2>Want new features early?</h2>
@@ -170,16 +117,6 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
       <p class="ver" id="beta-ver" aria-live="polite"></p>
     </section>
 
-    <section id="faq">
-      <h2>Questions</h2>
-      <details><summary>macOS says the app is damaged.</summary><p>It is not, it is just not signed by Apple yet. Run this once in Terminal:</p>
-        <div class="cmd"><code>xattr -cr /Applications/Concentr8.app</code><button class="wire-button small" type="button" data-copy>Copy</button></div></details>
-      <details><summary>Windows says it protected my PC.</summary><p>Click More info, then Run anyway.</p></details>
-      <details><summary>How do I start the Linux version?</summary><p>Make it runnable, then double-click it. Newer Ubuntu may need libfuse2.</p>
-        <div class="cmd"><code>chmod +x Concentr8-x64.AppImage</code><button class="wire-button small" type="button" data-copy>Copy</button></div></details>
-      <details><summary>Do I get the newest version?</summary><p>Not automatically yet. Come back to this page for the newest stable version.</p></details>
-      <details><summary>Where is my data?</summary><p>The app keeps your tasks and settings on your computer.</p></details>
-    </section>
   </main>
 
   <footer>Built by and for UC Berkeley students at Cal Hacks 13.0. Not affiliated with UC Berkeley. Not a medical product. <a href="https://github.com/concentr8/concentr8.github.io/releases">All stable versions</a> · <a href="https://github.com/concentr8/alpha/releases">All beta versions</a></footer>
