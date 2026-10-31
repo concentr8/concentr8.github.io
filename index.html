@@ -1,10 +1,12 @@
 <!doctype html>
 <!--
-  Purpose: the public Concentr8 page: what the app does, and the stable downloads.
+  Purpose: the public Concentr8 page: what the app does, the stable downloads, and install steps for Mac, Windows, Linux.
   Called by: GitHub Pages serves it at https://concentr8.github.io.
   Calls: the GitHub API (public, no key) to find the newest stable release in this repo. Betas are not linked here:
          testers get the address of the hidden beta page from Jonas. The web app at /alpha/ is a separate site.
   Look: Jack's wireframe design (alpha/docs/design.md): Arial, grey lines, .wire-button, 8px cards.
+  File names: electron-builder names the files Concentr8-${arch}.${ext}; for AppImage it writes x86_64, not x64.
+  Install steps were tested on 2026-10-30 (Linux: Ubuntu 24.04 run; Mac and Windows: files checked, not run).
 -->
 <html lang="en">
 <head>
@@ -16,9 +18,11 @@
 :root{color-scheme:light;--ink:#292929;--line:#dedede}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;background:#fff;color:var(--ink);font:18px/1.4 Arial,Helvetica,sans-serif}
 a{color:inherit}
 h1,h2,h3,p{margin:0}
+[hidden]{display:none!important}
 :focus-visible{outline:2px solid var(--ink);outline-offset:5px}
 .skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:6px}
 .skip:focus{left:12px}
@@ -59,7 +63,22 @@ h3{font-size:21px;font-weight:500;margin-bottom:10px}
 .cmd{display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 12px;border:1px solid #eaeaea;border-radius:6px;background:#f7f7f5}
 .cmd code{flex:1;min-width:0;font:15px ui-monospace,Menlo,monospace;overflow-wrap:anywhere}
 footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#777;line-height:1.6}
-@media (max-width:820px){.grid3{grid-template-columns:1fr}.hero{padding:40px 0 48px}section{padding:44px 0}}
+
+/* AI-GENERATED: install tabs. The selected tab copies the selected .mood word (#f4f4f2 and a dark border). */
+.os-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.os-tabs [aria-selected="true"]{background:#f4f4f2;border-color:var(--ink)}
+.steps{margin:0;padding:0;list-style:none;counter-reset:step}
+.steps>li{counter-increment:step;position:relative;padding:0 0 26px 44px;font-size:17px;color:#666;line-height:1.6}
+.steps>li:last-child{padding-bottom:0}
+.steps>li::before{content:counter(step);position:absolute;left:0;top:0;width:30px;height:30px;border:1.5px solid #bdbdbd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink)}
+.steps b{display:block;font-size:18px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.steps .cmd{max-width:40rem}
+.hint{font-size:15px;color:#737373;margin-top:8px}
+.hint code{font:14px ui-monospace,Menlo,monospace;color:var(--ink)}
+details{margin-top:8px}
+summary{cursor:pointer;font-size:16px;color:#555}
+summary:hover{text-decoration:underline}
+@media (max-width:820px){.grid3{grid-template-columns:1fr}.hero{padding:40px 0 48px}section{padding:44px 0}.card{padding:20px}}
 </style>
 </head>
 <body>
@@ -68,6 +87,8 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
   <header>
     <a class="brand" href="#top">Concentr8</a>
     <nav aria-label="Page">
+      <a href="#install">Install</a>
+      <a href="#systems">Mac, Windows, Linux</a>
       <a class="wire-button solid small" href="#download">Download</a>
     </nav>
   </header>
@@ -86,35 +107,74 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
       </div>
       <p class="ver" id="ver" aria-live="polite"></p>
       <div class="others" aria-label="Other downloads">
-        <a data-file="Concentr8-arm64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-arm64.dmg">Mac (Apple Silicon)</a>
+        <a data-file="Concentr8-arm64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-arm64.dmg">Mac (Apple chip)</a>
         <a data-file="Concentr8-x64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.dmg">Mac (Intel)</a>
         <a data-file="Concentr8-x64.exe" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.exe">Windows</a>
-        <a data-file="Concentr8-x64.AppImage" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.AppImage">Linux</a>
+        <a data-file="Concentr8-x86_64.AppImage" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x86_64.AppImage">Linux (AppImage)</a>
       </div>
-      <p class="detail-note" style="margin-top:14px">Not sure which Mac? Apple menu, About This Mac. Windows and Linux are early versions.</p>
     </div>
 
-    <section id="setup">
-      <h2>Ready in three minutes</h2>
-      <p class="intro">The first app versions show the web app in a window.</p>
-      <div class="grid3">
-        <div class="card"><h3>1. Install it</h3><p>Open the download and drag Concentr8 into Applications. If macOS says it is damaged, run this once in Terminal:</p>
-          <div class="cmd"><code>xattr -cr /Applications/Concentr8.app</code><button class="wire-button small" type="button" data-copy>Copy</button></div></div>
-        <div class="card"><h3>2. Open it</h3><p>Your tasks, timer and settings stay on your computer.</p></div>
-        <div class="card"><h3>3. Pick one task</h3><p>Write it down, start the timer, and add music or a body-double room if that helps.</p></div>
+    <section id="install" aria-labelledby="install-title">
+      <h2 id="install-title">Install in three minutes</h2>
+      <p class="intro">Concentr8 is not signed by Apple or Microsoft yet, so your computer asks once whether you trust it. Here is exactly what to click.</p>
+
+      <div class="os-tabs" role="tablist" aria-label="Your computer">
+        <button class="wire-button small" type="button" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="true">Mac</button>
+        <button class="wire-button small" type="button" role="tab" id="tab-win" aria-controls="panel-win" aria-selected="false" tabindex="-1">Windows</button>
+        <button class="wire-button small" type="button" role="tab" id="tab-linux" aria-controls="panel-linux" aria-selected="false" tabindex="-1">Linux</button>
+      </div>
+
+      <div class="card" role="tabpanel" id="panel-mac" aria-labelledby="tab-mac">
+        <ol class="steps">
+          <li><b>Pick the right file</b>Apple menu, About This Mac. "Chip: Apple M..." means <a data-file="Concentr8-arm64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-arm64.dmg">Apple chip</a>, "Processor: Intel" means <a data-file="Concentr8-x64.dmg" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.dmg">Intel</a>.</li>
+          <li><b>Drag it into Applications</b>Open the downloaded .dmg file and drag Concentr8 onto the Applications folder.</li>
+          <li><b>Run this once in Terminal</b>Without it, macOS says the app "is damaged". It only removes the download mark from Concentr8.
+            <div class="cmd"><code>xattr -cr /Applications/Concentr8.app</code><button class="wire-button small" type="button" data-copy>Copy</button></div>
+            <p class="hint">Terminal: press Cmd + Space, type Terminal, press Enter, paste, press Enter.</p></li>
+          <li><b>Open Concentr8</b>When it asks to control Chrome, Safari or System Events, click OK. That is how the block list sees distracting tabs. For Firefox also turn on Concentr8 in System Settings, Privacy &amp; Security, Accessibility.</li>
+        </ol>
+      </div>
+
+      <div class="card" role="tabpanel" id="panel-win" aria-labelledby="tab-win">
+        <ol class="steps">
+          <li><b>Open the installer</b>Open <a data-file="Concentr8-x64.exe" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x64.exe">Concentr8-x64.exe</a> from your Downloads folder.</li>
+          <li><b>Click "More info", then "Run anyway"</b>Windows shows "Windows protected your PC" for new apps that are not signed yet. The "Run anyway" button appears only after you click "More info".</li>
+          <li><b>Done</b>It installs for your account only (no admin password) and opens by itself. Later you find it in the Start menu and on the desktop. To remove it: Settings, Apps, Concentr8, Uninstall.</li>
+        </ol>
+      </div>
+
+      <div class="card" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux">
+        <ol class="steps">
+          <li><b>Once: install FUSE 2</b>AppImages need it. Without it you see "AppImages require FUSE to run". Ubuntu 24.04 or newer, Debian 13:
+            <div class="cmd"><code>sudo apt install libfuse2t64</code><button class="wire-button small" type="button" data-copy>Copy</button></div>
+            <p class="hint">Ubuntu 22.04: <code>sudo apt install libfuse2</code>. Fedora: <code>sudo dnf install fuse fuse-libs</code>. Do not install the package called just <code>fuse</code> on Ubuntu, it can break the system.</p></li>
+          <li><b>Make it runnable and start it</b>After downloading <a data-file="Concentr8-x86_64.AppImage" href="https://github.com/concentr8/concentr8.github.io/releases/latest/download/Concentr8-x86_64.AppImage">Concentr8-x86_64.AppImage</a>:
+            <div class="cmd"><code>chmod +x ~/Downloads/Concentr8-x86_64.AppImage &amp;&amp; ~/Downloads/Concentr8-x86_64.AppImage</code><button class="wire-button small" type="button" data-copy>Copy</button></div>
+            <details><summary>It stops with a "sandbox" error</summary><p class="hint">Some systems (for example Ubuntu 24.04) block the sandbox of Electron apps. Start it with <code>--no-sandbox</code> at the end.</p></details>
+            <details><summary>No admin rights for step 1</summary><p class="hint">Start it with <code>--appimage-extract-and-run</code> at the end. It needs no FUSE, only starts a bit slower.</p></details></li>
+          <li><b>For the block list: xdotool and X11</b>Concentr8 reads window titles with xdotool. It does not work in a Wayland session; pick "Ubuntu on Xorg" on the login screen.
+            <div class="cmd"><code>sudo apt install xdotool</code><button class="wire-button small" type="button" data-copy>Copy</button></div></li>
+        </ol>
       </div>
     </section>
 
-
-
-
+    <section id="systems" aria-labelledby="systems-title">
+      <h2 id="systems-title">What works where</h2>
+      <p class="intro">Your tasks, timer and settings stay on your computer. The app shows the web app in a window and adds the block list.</p>
+      <div class="grid3">
+        <div class="card"><h3>Mac</h3><p>Everything, including blocking websites by their address and sending you back to the last work tab.</p></div>
+        <div class="card"><h3>Windows</h3><p>Early version. The block list sees app names and window titles, not web addresses, and closes a blocked tab.</p></div>
+        <div class="card"><h3>Linux</h3><p>Early version. Same as Windows, and the block list needs xdotool and an X11 session.</p></div>
+      </div>
+    </section>
   </main>
 
   <footer>Built by and for UC Berkeley students at Cal Hacks 13.0. Not affiliated with UC Berkeley. Not a medical product. <a href="https://github.com/concentr8/concentr8.github.io/releases">All stable versions</a></footer>
 </div>
 <script>
-// Why: the big button should download the right file for this computer, and the version text should come from
-// GitHub. Without JavaScript the Mac button still works and nothing is hidden.
+// Why: the big button should download the right file for this computer, the install steps should open on this
+// computer's tab, and the version text should come from GitHub. Without JavaScript the Mac button still works and
+// all three install guides are shown one below the other.
 (function () {
   try {
     var STABLE = 'concentr8/concentr8.github.io';
@@ -127,10 +187,12 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
     document.documentElement.setAttribute('data-os', os);
 
     var base = 'https://github.com/' + STABLE + '/releases/latest/download/';
-    var pick = { mac: ['Concentr8-arm64.dmg', 'Download for Mac'], win: ['Concentr8-x64.exe', 'Download for Windows'], linux: ['Concentr8-x64.AppImage', 'Download for Linux'] }[os];
+    var pick = { mac: ['Concentr8-arm64.dmg', 'Download for Mac'], win: ['Concentr8-x64.exe', 'Download for Windows'], linux: ['Concentr8-x86_64.AppImage', 'Download for Linux'] }[os];
     var dl = document.getElementById('dl');
     if (pick) { dl.href = base + pick[0]; dl.textContent = pick[1]; dl.setAttribute('data-file', pick[0]); }
     else dl.setAttribute('data-file', 'Concentr8-arm64.dmg');
+
+    setupTabs(os === 'win' || os === 'linux' ? os : 'mac');
 
     var day = function (iso) { return iso ? new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : ''; };
     fetch('https://api.github.com/repos/' + STABLE + '/releases/latest').then(function (r) { return r.ok ? r.json() : null; }).then(function (rel) {
@@ -151,13 +213,41 @@ footer{padding:36px 0 56px;border-top:1px solid #eaeaea;font-size:15px;color:#77
       }
     }).catch(function () {});
 
-
     var cmds = document.querySelectorAll('[data-copy]');
-    for (var k = 0; k < cmds.length; k++) cmds[k].addEventListener('click', function (ev) {
-      var b = ev.currentTarget, text = b.previousElementSibling.textContent;
-      if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 2000); });
-    });
+    for (var k = 0; k < cmds.length; k++) cmds[k].addEventListener('click', copyCommand);
   } catch (e) {}
+
+  // Why: one guide at a time is easier to follow. Arrow keys move between tabs (the usual tab pattern for screen readers).
+  function setupTabs(first) {
+    var tabs = [].slice.call(document.querySelectorAll('[role="tab"]'));
+    function show(tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { show(t, false); });
+      t.addEventListener('keydown', function (ev) {
+        var step = ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowLeft' ? -1 : 0;
+        if (step) { ev.preventDefault(); show(tabs[(i + step + tabs.length) % tabs.length], true); }
+      });
+    });
+    show(document.getElementById('tab-' + first), false);
+  }
+
+  // Why: the commands are easy to mistype. The clipboard API needs https or localhost; otherwise the text is selected
+  // so the visitor can copy it by hand.
+  function copyCommand(ev) {
+    var b = ev.currentTarget, code = b.previousElementSibling, text = code.textContent;
+    var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 2000); };
+    var select = function () { var r = document.createRange(); r.selectNodeContents(code); var s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, select);
+    else select();
+  }
 })();
 </script>
 </body>
